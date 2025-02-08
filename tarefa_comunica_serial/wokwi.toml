@@ -2,3 +2,6 @@
 version = 1
 firmware = 'build/tarefa_comunica_serial.uf2'
 elf = 'build/tarefa_comunica_serial.elf'
+
+[[uart]]
+baud = 115200

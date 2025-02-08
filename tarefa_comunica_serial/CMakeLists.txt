@@ -1,5 +1,4 @@
 
-
 cmake_minimum_required(VERSION 3.13)
 
 set(CMAKE_C_STANDARD 11)
@@ -40,9 +39,12 @@ add_executable(tarefa_comunica_serial tarefa_comunica_serial.c auxiliar/ssd1306.
 pico_set_program_name(tarefa_comunica_serial "tarefa_comunica_serial")
 pico_set_program_version(tarefa_comunica_serial "0.1")
 
+# Generate PIO header
+pico_generate_pio_header(tarefa_comunica_serial ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
+
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(tarefa_comunica_serial 0)
-pico_enable_stdio_usb(tarefa_comunica_serial 1)
+pico_enable_stdio_uart(tarefa_comunica_serial 1)
+pico_enable_stdio_usb(tarefa_comunica_serial 0)
 
 # Add the standard library to the build
 target_link_libraries(tarefa_comunica_serial
@@ -56,6 +58,9 @@ target_include_directories(tarefa_comunica_serial PRIVATE
 # Add any user requested libraries
 target_link_libraries(tarefa_comunica_serial
         hardware_i2c
+        hardware_pio
+        hardware_clocks
+        hardware_timer
         )
 
 pico_add_extra_outputs(tarefa_comunica_serial)

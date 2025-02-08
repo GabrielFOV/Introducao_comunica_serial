@@ -59,26 +59,18 @@
       "left": 182.4,
       "attrs": { "color": "green" }
     },
-    { "type": "wokwi-rgb-led", "id": "rgb26", "top": 4, "left": 106.7, "attrs": {} },
+    {
+      "type": "wokwi-rgb-led",
+      "id": "rgb26",
+      "top": 4,
+      "left": 106.7,
+      "attrs": { "common": "cathode" }
+    },
     {
       "type": "wokwi-resistor",
       "id": "r1",
       "top": 80.75,
       "left": 201.6,
-      "attrs": { "value": "1000" }
-    },
-    {
-      "type": "wokwi-resistor",
-      "id": "r2",
-      "top": -111.25,
-      "left": 259.2,
-      "attrs": { "value": "1000" }
-    },
-    {
-      "type": "wokwi-resistor",
-      "id": "r3",
-      "top": -178.45,
-      "left": 259.2,
       "attrs": { "value": "1000" }
     },
     {
@@ -172,17 +164,15 @@
     [ "rgb26:B", "pico:GP11", "blue", [ "h164.8", "v-38.4" ] ],
     [ "pico:GP13", "rgb26:R", "red", [ "h-28.8", "v38.44", "h-211.2" ] ],
     [ "rgb26:COM", "r1:1", "black", [ "v28.4", "h76.9" ] ],
-    [ "pico:GP5", "btn1:2.l", "green", [ "h0" ] ],
-    [ "btn1:2.r", "r2:1", "black", [ "h0" ] ],
-    [ "pico:GP6", "btn2:2.l", "green", [ "h-182.4", "v-125" ] ],
-    [ "btn2:2.r", "r3:1", "black", [ "h0" ] ],
-    [ "r3:2", "pico:GND.1", "black", [ "h8.4", "v67.2" ] ],
     [ "oled1:GND", "pico:GND.7", "black", [ "v-9.6", "h-48", "v48" ] ],
     [ "pico:GND.3", "r1:2", "black", [ "h-57.6", "v96" ] ],
     [ "oled1:SCL", "pico:GP15", "green", [ "v-28.8", "h67.5", "v201.6", "h-201.6", "v-19.24" ] ],
     [ "vcc6:VCC", "oled1:VCC", "red", [ "v0" ] ],
     [ "oled1:SDA", "pico:GP14", "green", [ "v-19.2", "h48.07", "v182.4", "h-211.2", "v-28.8" ] ],
-    [ "r2:2", "pico:GND.2", "black", [ "v48", "h8.4" ] ]
+    [ "btn1:1.l", "pico:GP5", "green", [ "h-9.6", "v57.6" ] ],
+    [ "btn1:2.r", "pico:GND.2", "black", [ "h57.8", "v48.2" ] ],
+    [ "btn2:2.r", "pico:GND.1", "black", [ "h67.4", "v0.2" ] ],
+    [ "btn2:1.l", "pico:GP6", "green", [ "h-19.2", "v144" ] ]
   ],
   "dependencies": {}
 }
