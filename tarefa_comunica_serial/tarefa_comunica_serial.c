@@ -41,6 +41,8 @@ static volatile uint b = 1;
 static volatile uint32_t last_time = 0; //Armazena o tempo do último evento (em microssegundos).
 char apresentar[2];
 char caracter;
+ssd1306_t ssd; //Inicializa a estrutura do display.
+bool cor = true; 
 
 //Prototipação da função de interrupção.
 static void gpio_irq_handlerA(uint gpio, uint32_t events);
@@ -356,7 +358,7 @@ int main()
   gpio_set_function(I2C_SCL, GPIO_FUNC_I2C); // Configura o pino GPIO para I2C
   gpio_pull_up(I2C_SDA); //Habilita o pull up para os dados
   gpio_pull_up(I2C_SCL); //Habilita o pull up para o clock
-  ssd1306_t ssd; //Inicializa a estrutura do display.
+  
   ssd1306_init(&ssd, WIDTH, HEIGHT, false, endereco, I2C_PORT); //Inicializa o display.
   ssd1306_config(&ssd); //Configura o display.
   ssd1306_send_data(&ssd); //Envia os dados para o display.
@@ -369,7 +371,6 @@ int main()
   gpio_set_irq_enabled_with_callback(button_A, GPIO_IRQ_EDGE_FALL, true, &gpio_irq_handlerA);
   gpio_set_irq_enabled(button_B, GPIO_IRQ_EDGE_FALL, true);
 
-  bool cor = true;
   while (true)
   {
     cor = !cor;
@@ -399,10 +400,10 @@ int main()
     ssd1306_fill(&ssd, !cor); //Limpa o display.
     ssd1306_rect(&ssd, 3, 3, 122, 58, cor, !cor); //Desenha um retângulo.
     ssd1306_draw_string(&ssd, apresentar, 60, 30); //Desenha uma string.
-
     ssd1306_send_data(&ssd); //Atualiza o display.
     sleep_ms(1000);
   }
+  
 }
 
 //Função de interrupção com debouncing.
@@ -421,7 +422,17 @@ void gpio_irq_handlerA(uint gpio, uint32_t events)
         if(gpio_get(ledB_pin)==false)//Reconhece o estado do led.
         {
           uart_puts(UART_ID, " led azul desligado\r\n");
-        } else { uart_puts(UART_ID, " led azul ligado\r\n");}
+          ssd1306_fill(&ssd, !cor); //Limpa o display.
+          ssd1306_rect(&ssd, 3, 3, 122, 58, cor, !cor); //Desenha um retângulo.
+          ssd1306_draw_string(&ssd, "led azul off", 17, 30);
+          ssd1306_send_data(&ssd); //Atualiza o display.
+        } else { uart_puts(UART_ID, " led azul ligado\r\n");
+          ssd1306_fill(&ssd, !cor); //Limpa o display.
+          ssd1306_rect(&ssd, 3, 3, 122, 58, cor, !cor); //Desenha um retângulo.
+          ssd1306_draw_string(&ssd, "led azul on", 17, 30);
+          ssd1306_send_data(&ssd); //Atualiza o display.
+          
+        }
         a++;//Incrementa a variavel de verificação
     }
 
@@ -434,7 +445,16 @@ void gpio_irq_handlerA(uint gpio, uint32_t events)
         if(gpio_get(ledA_pin)==false)//Reconhece o estado do led.
         {
           uart_puts(UART_ID, " led verde desligado\r\n");
-        } else { uart_puts(UART_ID, " led verde ligado\r\n");}
+          ssd1306_fill(&ssd, !cor); //Limpa o display.
+          ssd1306_rect(&ssd, 3, 3, 122, 58, cor, !cor); //Desenha um retângulo.
+          ssd1306_draw_string(&ssd, "led verde off", 14, 30);
+          ssd1306_send_data(&ssd); //Atualiza o display.
+        } else { uart_puts(UART_ID, " led verde ligado\r\n");
+          ssd1306_fill(&ssd, !cor); //Limpa o display.
+          ssd1306_rect(&ssd, 3, 3, 122, 58, cor, !cor); //Desenha um retângulo.
+          ssd1306_draw_string(&ssd, "led verde on", 14, 30);
+          ssd1306_send_data(&ssd); //Atualiza o display.
+        }
         b++;//Incrementa a variavel de verificação.
     }
   
